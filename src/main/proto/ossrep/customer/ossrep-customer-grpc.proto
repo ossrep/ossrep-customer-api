@@ -1,0 +1,149 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.ossrep.grpc.customer";
+option java_outer_classname = "CustomerGrpcProto";
+
+package ossrep.customer;
+
+import "google/protobuf/empty.proto";
+
+enum CustomerType {
+  CUSTOMER_TYPE_UNSPECIFIED = 0;
+  CUSTOMER_TYPE_INDIVIDUAL = 1;
+  CUSTOMER_TYPE_BUSINESS = 2;
+}
+
+enum Suffix {
+  SUFFIX_UNSPECIFIED = 0;
+  SUFFIX_JR = 1;
+  SUFFIX_SR = 2;
+  SUFFIX_III = 3;
+  SUFFIX_IV = 4;
+  SUFFIX_V = 5;
+  SUFFIX_VI = 6;
+  SUFFIX_VII = 7;
+  SUFFIX_VIII = 8;
+  SUFFIX_IX = 9;
+}
+
+message CustomerIndividual {
+  int64 customer_id = 1;
+  string first_name = 2;
+  string middle_name = 3;
+  string last_name = 4;
+  Suffix suffix = 5;
+}
+
+message CustomerBusiness {
+  int64 customer_id = 1;
+  string legal_name = 2;
+}
+
+message CreateCustomerIndividualRequest {
+  string first_name = 1;
+  string middle_name = 2;
+  string last_name = 3;
+  Suffix suffix = 4;
+}
+
+message CreateCustomerIndividualResponse {
+  CustomerIndividual customer = 1;
+}
+
+message GetCustomerIndividualRequest {
+  int64 customer_id = 1;
+}
+
+message GetCustomerIndividualResponse {
+  CustomerIndividual customer = 1;
+}
+
+message UpdateCustomerIndividualRequest {
+  int64 customer_id = 1;
+  string first_name = 2;
+  string middle_name = 3;
+  string last_name = 4;
+  Suffix suffix = 5;
+}
+
+message UpdateCustomerIndividualResponse {
+  CustomerIndividual customer = 1;
+}
+
+message DeleteCustomerIndividualRequest {
+  int64 customer_id = 1;
+}
+
+message DeleteCustomerIndividualResponse {
+  bool success = 1;
+}
+
+message ListCustomerIndividualRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+message ListCustomerIndividualResponse {
+  repeated CustomerIndividual customers = 1;
+  int32 total_count = 2;
+}
+
+message CreateCustomerBusinessRequest {
+  string legal_name = 1;
+}
+
+message CreateCustomerBusinessResponse {
+  CustomerBusiness customer = 1;
+}
+
+message GetCustomerBusinessRequest {
+  int64 customer_id = 1;
+}
+
+message GetCustomerBusinessResponse {
+  CustomerBusiness customer = 1;
+}
+
+message UpdateCustomerBusinessRequest {
+  int64 customer_id = 1;
+  string legal_name = 2;
+}
+
+message UpdateCustomerBusinessResponse {
+  CustomerBusiness customer = 1;
+}
+
+message DeleteCustomerBusinessRequest {
+  int64 customer_id = 1;
+}
+
+message DeleteCustomerBusinessResponse {
+  bool success = 1;
+}
+
+message ListCustomerBusinessRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+message ListCustomerBusinessResponse {
+  repeated CustomerBusiness customers = 1;
+  int32 total_count = 2;
+}
+
+service CustomerService {
+  // Individual Customer operations
+  rpc ListCustomerIndividual(ListCustomerIndividualRequest) returns (ListCustomerIndividualResponse) {}
+  rpc GetCustomerIndividual(GetCustomerIndividualRequest) returns (GetCustomerIndividualResponse) {}
+  rpc CreateCustomerIndividual(CreateCustomerIndividualRequest) returns (CreateCustomerIndividualResponse) {}
+  rpc UpdateCustomerIndividual(UpdateCustomerIndividualRequest) returns (UpdateCustomerIndividualResponse) {}
+  rpc DeleteCustomerIndividual(DeleteCustomerIndividualRequest) returns (DeleteCustomerIndividualResponse) {}
+
+  // Business Customer operations
+  rpc ListCustomerBusiness(ListCustomerBusinessRequest) returns (ListCustomerBusinessResponse);
+  rpc GetCustomerBusiness(GetCustomerBusinessRequest) returns (GetCustomerBusinessResponse);
+  rpc CreateCustomerBusiness(CreateCustomerBusinessRequest) returns (CreateCustomerBusinessResponse);
+  rpc UpdateCustomerBusiness(UpdateCustomerBusinessRequest) returns (UpdateCustomerBusinessResponse);
+  rpc DeleteCustomerBusiness(DeleteCustomerBusinessRequest) returns (DeleteCustomerBusinessResponse);
+}
